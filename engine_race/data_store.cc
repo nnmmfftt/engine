@@ -11,21 +11,10 @@ namespace polar_race {
 static const char kDataFilePrefix[] = "DATA_";
 static const int kDataFilePrefixLen = 5;
 static const int kSingleFileSize = 1024 * 1024 * 64;
-int64_t computefile_no() {
-	pthread_t tid;
-	tid = pthread_self();
-	uint64_t uli_pthread_no = (uint64_t)tid;
-	uli_pthread_no = uli_pthread_no * 1000000;
-        
-//	char strno[64];
-//	sprintf(strno, "%u", uint64_t(uli_pthread_no));
-	return uli_pthread_no;
-}
 static std::string FileName(const std::string &dir, uint32_t fileno) {
   
   return dir + "/" + kDataFilePrefix + std::to_string(fileno);
 }
-
 RetCode DataStore::Init() {
   
   
@@ -78,7 +67,7 @@ RetCode DataStore::Append(const std::string& value, Location* location) {
   if (next_location_.offset + value.size() > kSingleFileSize) {
     // Swtich to new file
     close(fd_);
-    next_location_.file_no =computefile_no() +1;
+    next_location_.file_no +=1;
     next_location_.offset = 0;
     OpenCurFile();
   }

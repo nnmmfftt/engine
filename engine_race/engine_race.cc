@@ -6,6 +6,7 @@
 #include <map>
 #include "util.h"
 #include <pthread.h>
+#include <data_store.h>
 namespace polar_race {
 static const char kLockFile[] = "LOCK";
 RetCode Engine::Open(const std::string& name, Engine** eptr) {
@@ -54,6 +55,7 @@ EngineRace::~EngineRace() {
 RetCode EngineRace::Write(const PolarString& key, const PolarString& value) {
 //  pthread_mutex_lock(&mu_);
   Location location;
+  location.file_no =compute_file_no();
   RetCode ret = store_.Append(value.ToString(), &location);
   if (ret == kSucc) {
     ret = plate_.AddOrUpdate(key.ToString(), location);

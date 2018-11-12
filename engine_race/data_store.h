@@ -29,7 +29,7 @@ class DataStore  {
   RetCode Init();
   RetCode Read(const Location& l, std::string* value);
   RetCode Append(const std::string& value, Location* location);
-
+ uint64_t computefile_no();
  private:
   int fd_;
   std::string dir_;

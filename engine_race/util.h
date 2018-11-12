@@ -10,13 +10,13 @@ namespace polar_race {
 
 // Hash
 uint32_t StrHash(const char* s);
-
+uint64_t compute_file_no();
 // Env
 int GetDirFiles(const std::string& dir, std::vector<std::string>* result);
 int GetFileLength(const std::string& file);
 int FileAppend(int fd, const std::string& value);
 bool FileExists(const std::string& path);
-
+//uint64_t compute_file_no();
 // FileLock
 class FileLock  {
  public:

@@ -5,7 +5,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/file.h>
-
+#include <pthread.h>
 #include "util.h"
 
 namespace polar_race {
@@ -28,7 +28,14 @@ uint32_t StrHash(const char* s) {
 		h = h * 131313 + (*s++);   //1313...		         
 }  return h;
 }
+uint64_t compute_file_no() {
+        pthread_t tid;
+        tid = pthread_self();
+        uint64_t uli_pthread_no = (uint64_t)tid;
+        uli_pthread_no = uli_pthread_no * 100000;
 
+        return uli_pthread_no;
+}
 int GetDirFiles(const std::string& dir, std::vector<std::string>* result) {
   int res = 0;
   result->clear();
@@ -115,5 +122,4 @@ int UnlockFile(FileLock* lock) {
   delete lock;
   return result;
 }
-
 }  // namespace polar_race
