@@ -54,12 +54,16 @@ EngineRace::~EngineRace() {
 // 3. Write a key-value pair into engine
 RetCode EngineRace::Write(const PolarString& key, const PolarString& value) {
 //  pthread_mutex_lock(&mu_);
+  pthread_t tid;
+  tid = pthread_self();
   Location location;
-  location.file_no =compute_file_no();
+  location.file_no =(uint64_t)tid;
   RetCode ret = store_.Append(value.ToString(), &location);
   if (ret == kSucc) {
-    ret = plate_.AddOrUpdate(key.ToString(), location);
-  }
+    	pthread_mutex_lock(&mu_);
+	ret = plate_.AddOrUpdate(key.ToString(), location);
+        pthread_mutex_unlock(&mu_);
+	}
 //  pthread_mutex_unlock(&mu_);
   return kSucc;
   

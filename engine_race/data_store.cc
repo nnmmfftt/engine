@@ -116,7 +116,7 @@ RetCode DataStore::Read(const Location& l, std::string* value) {
 
 RetCode DataStore::OpenCurFile() {
   std::string file_name = FileName(dir_, next_location_.file_no);
-  int fd = open(file_name.c_str(), O_APPEND | O_WRONLY | O_CREAT, 0644);
+  int fd = open(file_name.c_str(),O_APPEND|  O_WRONLY | O_CREAT, 0644);
   if (fd < 0) {
     return kIOError;
   }
